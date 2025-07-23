@@ -1,16 +1,29 @@
-from modules.viewmanager import ViewManager
-from modules.app import StoreApp
+from kivy.app import App
+from kivy.core.window import Window
+from kivy.uix.screenmanager import ScreenManager
+from kivy.clock import Clock
+from screens.idlescreen import IdleScreen
+from modules.rfid import rfid
 
-from views.start import StartView
-from views.setup import SetupView
-from views.hold import HoldView
 
-app = StoreApp()
+class ClassurencyApp(App):
+    def build(self):
+        Window.show_cursor = False
+        self.screen_manager = ScreenManager()
+        self.screen_manager.add_widget(IdleScreen())
+        self.rfid = rfid
+        self.rfid.set_callback(self.on_rfid_read)
+        return self.screen_manager
 
-''' ViewManager is basic state machine, which will control
-different states of our app. This mainly affects LCD-screen and RFID '''
-vm = ViewManager(app)
-vm.add_view(StartView(name='start'))
-vm.add_view(SetupView(name='setup'))
-vm.add_view(HoldView(name='hold'))
-app.start(vm)
+    def on_rfid_read(self, id, text):
+        # Schedule the UI update on the main thread
+        Clock.schedule_once(lambda dt: self.handle_rfid_read(id, text))
+
+    def handle_rfid_read(self, id, text):
+        current_screen = self.screen_manager.current_screen
+        if hasattr(current_screen, "on_rfid_read"):
+            current_screen.on_rfid_read(id, text)
+
+
+if __name__ == "__main__":
+    ClassurencyApp().run()
