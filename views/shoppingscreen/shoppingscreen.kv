@@ -1,0 +1,211 @@
+#:kivy 2.1.0
+
+<CartItemLayout>:
+    height: 100
+    size_hint_y: None
+    Label:
+        text: root.name
+        font_size: 30
+    Label:
+        text: root.price
+        font_size: 30
+
+<ConfirmationExitPopup@Popup>:
+    id: confirmation_exit_popup
+    title: 'Confirmation'
+    size_hint: 0.5, 0.5
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10, 10
+        Label:
+            text: 'Are you sure you want to \n exit the shopping cart?'
+            halign: 'center'
+            font_size: 20
+            size_hint_y: 0.5
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.5
+            padding: 10, 10
+            Button:
+                text: 'Yes'
+                on_release: app.root.get_screen('shopping_screen').exit_confirmed()
+                size_hint_x: 0.5
+            Button:
+                text: 'No'
+                on_release: root.dismiss()
+                size_hint_x: 0.5
+
+<ConfirmationBuyPopup@Popup>:
+    id: confirmation_buy_popup
+    title: 'Confirmation'
+    size_hint: 0.5, 0.5
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10, 10
+        Label:
+            text: 'Are you sure you want to buy \n the items in the shopping cart?'
+            halign: 'center'
+            font_size: 20
+            size_hint_y: 0.5
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.5
+            padding: 10, 10
+            Button:
+                text: 'Yes'
+                on_release: app.root.get_screen('shopping_screen').buy_confirmed()
+                size_hint_x: 0.5
+            Button:
+                text: 'No'
+                on_release: root.dismiss()
+                size_hint_x: 0.5
+
+<CartState>:
+    id: cart_state
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Your shopping cart"
+            font_size: 30
+            size_hint_y: 0.1
+        ScrollView:
+            id: cart_scrollview
+            size_hint_y: 0.6
+            do_scroll_x: False
+            do_scroll_y: True
+            
+            BoxLayout:
+                orientation: 'vertical'
+                id: cart_container
+                size_hint_y: None
+
+        Label:
+            text: "Total: 100"
+            font_size: 30
+            size_hint_y: 0.1
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, None
+            padding: 10, 10
+            Button:
+                text: "Cancel"
+                on_release: app.root.get_screen('shopping_screen').on_pressing_cancel()
+            Button:
+                text: "Buy"
+                on_release: app.root.get_screen('shopping_screen').on_pressing_buy()
+
+<AskCardState>:
+    id: ask_card_state
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Please insert your card"
+            font_size: 30
+            size_hint_y: 0.7
+        Button:
+            text: "Cancel"
+            on_release: app.root.get_screen('shopping_screen').on_pressing_cancel()
+            size_hint_y: 0.3
+<AskPinState>:
+    id: ask_pin_state
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            size_hint_y: 0.15
+            text: "Give PIN"
+            font_size: 30
+        Label:
+            id: keycode_label
+            size_hint_y: 0.15
+            text: root.formatted_keycode
+            font_size: 48
+        
+        GridLayout:
+            size_hint_y: 0.7
+            cols: 5
+            padding: 20
+            Button:
+                text: "1"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("1")
+            Button:
+                text: "2"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("2")
+            Button:
+                text: "3"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("3")
+            BoxLayout:
+                size_hint_x: None
+                width: 20
+            Button:
+                text: "Cancel"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_pressing_cancel()
+                background_color: .99, .11, .18, 1
+            Button:
+                text: "4"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("4")
+            Button:
+                text: "5"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("5")
+            Button:
+                text: "6"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("6")
+            BoxLayout:
+                size_hint_x: None
+                width: 20
+            Button:
+                text: "Correction"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_correction()
+                background_color: .98, .86, .05, 1
+            Button:
+                text: "7"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("7")
+            Button:
+                text: "8"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("8")
+            Button:
+                text: "9"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("9")
+            BoxLayout:
+                size_hint_x: None
+                width: 20
+            Button:
+                text: "Enter"
+                size_hint_y: 0.2
+                padding_left: 10
+                background_color: 0, .6, .0, 1
+                on_release: app.root.get_screen('shopping_screen').on_pressing_enter()
+            Button:
+                text: ""
+                size_hint_y: 0.2
+                disabled: True
+            Button:
+                text: "0"
+                size_hint_y: 0.2
+                on_release: app.root.get_screen('shopping_screen').on_key_press("0")
+            Button:
+                text: ""
+                size_hint_y: 0.2
+                disabled: True
+            BoxLayout:
+                size_hint_x: None
+                width: 20
+<PaymentEndState>:
+    id: payment_end_state
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Payment successful"
+            font_size: 30
+            size_hint_y: 0.1
+    
