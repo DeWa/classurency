@@ -1,0 +1,15 @@
+#:kivy 2.1.0
+
+#:include views/idlescreen/idlescreen.kv
+#:include views/accountscreen/accountscreen.kv
+
+ScreenManager:
+    id: screen_manager
+
+    IdleScreen:
+        name: "idle_screen"
+        id: idle_screen
+    
+    AccountScreen:
+        name: "account_screen"
+        id: account_screen
